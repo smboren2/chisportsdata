@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>BULLS on ChiSports Data</title>
+    <link>/www.chisportsdata.com/categories/bulls/</link>
+    <description>Recent content in BULLS on ChiSports Data</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 26 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/www.chisportsdata.com/categories/bulls/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Example</title>
+      <link>/www.chisportsdata.com/2018/12/26/example/</link>
+      <pubDate>Wed, 26 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/www.chisportsdata.com/2018/12/26/example/</guid>
+      <description> Rose: &amp;quot;I’m happy I didn’t change throughout this whole process. I remained myself. I stayed true to my family. There was a lot of people that jumped off the boat when I was going through things. I seen who they were. I know what’s fake love and what’s real love.&amp;quot;
+&amp;mdash; K.C. Johnson (@KCJHoop) December 27, 2018  </description>
+    </item>
+    
+  </channel>
+</rss>
