@@ -1,0 +1,15 @@
+---
+title: Example
+author: Sean Boren
+date: '2018-12-26'
+slug: example
+categories: ["BULLS"]
+tags:
+  - R Markdown
+---
+
+```{r echo=FALSE}
+blogdown::shortcode('tweet', '1078143061681676289')
+
+```
+
