@@ -8,6 +8,8 @@ tags:
   - R Markdown
 ---
 
+EXAMPLE POST
+
 ```{r echo=FALSE}
 blogdown::shortcode('tweet', '1078143061681676289')
 
