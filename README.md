@@ -1,2 +1,0 @@
-# chisportsdata
-ChiSportsData website
