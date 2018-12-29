@@ -10,9 +10,9 @@ tags: ["R Markdown", "plot", "regression"]
 knitr::opts_chunk$set(collapse = TRUE)
 ```
 
-# R Markdown
+# Example Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+**Let's pretend this an example post types here, saved in RStudio and pushed to GitHub.** 
 
 You can embed an R code chunk like this:
 
