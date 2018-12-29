@@ -1,4 +1,4 @@
-baseurl = "https://chisportsboren.netlify.com/"
+baseurl = "www.chisportsdata.com/"
 title = "ChiSports Data"
 theme = "hugo-nederburg-theme"
 languageCode = "en-us"
