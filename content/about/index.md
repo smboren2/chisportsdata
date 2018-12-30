@@ -1,9 +1,9 @@
 +++
 date = "2016-11-05T21:05:33+05:30"
-title = "About me"
+title = "About"
 +++
 
-#### About the Blog
+#### **About the Blog**
 
 As a Chicago kid growing up on the south side, I've learned to become passionate about our sports team as I've been cheering on the White Sox and Bulls for as long as I can remember (my football allegiance belongs to those cheeseheads to the north which can be discussed another day). In recent years, we've seen our favorite sports evolve based on data and analytics. Organizations are now relying on data for decisions around personnel, in-game strategy, and salary cap management among others. The emergence of data-related trends within sports and the concept of open sourced tools has led to a plethora of data to be analyzed. As a professional advancing in the field of data science, I've embraced this evolation and found myself wanting to work more with data I enjoy, pushing me to create this blog. 
 
@@ -11,7 +11,7 @@ The blog is intended to focus on data and analytics primarily for Chicago-based 
 
 **IN PROGRESS**
 
-#### About the Author
+#### **About the Author**
 
 An sincerity so extremity he additions. Her yet **there truth merit**. Mrs all projecting favourable now unpleasing. Son law garden chatty temper. Oh children provided to mr elegance marriage strongly. Off can admiration prosperous now devonshire diminution law.
 
@@ -23,7 +23,7 @@ The Big Oxmox advised her not to do so, because there were thousands of bad Comm
 
 #### Education
 
-* *Illinois State Univesity* Bachelor of Science in Finance
-* *Northwestern University* Master of Science in Data Science
+* **Illinois State Univesity** Bachelor of Science in Finance
+* **Northwestern University** Master of Science in Data Science
 
 [1]: /img/about.jpg
