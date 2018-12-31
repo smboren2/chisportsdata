@@ -11,11 +11,11 @@ As a Chicago kid growing up on the south side, I’ve learned to become passiona
 
 Blogs can generally be about anything. The focus here is to educate readers, presumably Chicago sports fans, about their teams through a data-centric lens in the most interpretable way possible. Each post will typically center on a specific question (i.e. How have the Bulls performed under Jim Boylen vs. Fred Hoiberg?) using advanced analytics and data visualizations to potentially reach a conclusion. In true data science fashion, each analysis related to a post will reproducible and made available on Github using R and RMarkdown.
 
-A direct link to all posts can be found here:
+A direct link to all posts for reproducibility can be found [**here**] (https://github.com/smboren2/chisportsdata/tree/master/content/post)
 
 ### **About the Author**
 
-I am currently a Senior Data Scientist working for the National Futures Association, a self-regulatory body overseeing the futures and options markets. In addition to my role, I am currently enrolled in Northwestern's Master of Data Science program with an expected graduation in the spring of 2020.
+My name is Sean Boren and I am currently a Senior Data Scientist working for the National Futures Association, a self-regulatory body overseeing the futures and options markets. In addition to my professional career I am progressing through Northwestern's Master of Data Science program with an expected graduation in the spring of 2020.
 
 #### Education
 
