@@ -19,7 +19,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   # Unmark to use post folder for images. Default is static folder.
   #usepostimgfolder = true
   slogan = "Data insights for your Chicago sports teams"
-  description = "Using open source tools to understanding the data within sports" # meta description
+  description = "Using open source tools for exploring data within sports" # meta description
   # You need to set author to have an author bio. If you have a writer in the markdown file it will override this.
   #author = "Sean Boren"
   authorLink = "https://www.linkedin.com/in/sean-boren-23217129/"
@@ -27,9 +27,8 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     "Sean is an avid sports fan and data scientist."
   ]
   copyright = [
-    "&copy; 2018 Göran Svensson",
-    "Nederburg Hugo Theme by [Appernetic](https://appernetic.io).",
-    "A port of Tracks by Compete Themes."
+    "&copy; 2019 Sean Boren",
+    "Powered by [Nederburg](https://themes.gohugo.io/hugo-nederburg-theme/) Theme for Hugo"
   ]
 
 
