@@ -69,3 +69,14 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
   linkedin      = "https://www.linkedin.com/in/sean-boren-23217129/"
   github        = "https://github.com/smboren2"
   rss           = true
+  
+# Add a writer, then use it in the markdown front matter like this: writer = "Lukas Herman"
+  [params.writers]
+    [params.writers."Sean Boren"]
+    email = "smboren2@gmail.com"
+    bio = [
+      "Sean is an avid sports fan and data scientist."
+    ]
+  twitter       = "https://twitter.com/smboren"
+  linkedin      = "https://www.linkedin.com/in/sean-boren-23217129/"
+  github        = "https://github.com/smboren2"
