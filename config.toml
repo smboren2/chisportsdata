@@ -77,6 +77,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     bio = [
       "Sean is an avid sports fan and data scientist."
     ]
-  twitter       = "https://twitter.com/smboren"
-  linkedin      = "https://www.linkedin.com/in/sean-boren-23217129/"
-  github        = "https://github.com/smboren2"
+    twitter       = "https://twitter.com/smboren"
+    linkedin      = "https://www.linkedin.com/in/sean-boren-23217129/"
+    github        = "https://github.com/smboren2"
