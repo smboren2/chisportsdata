@@ -1,0 +1,110 @@
+---
+title: Evaluating Joc Pederson
+author: Sean Boren
+date: '2019-01-21'
+slug: evaluating-joc-pederson
+categories:
+  - White Sox
+tags: []
+draft: TRUE
+---
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE, error = FALSE, warning = FALSE, message = FALSE)
+
+```
+
+With rumblings about a potential trade for Joc Pederson, the White Sox are continuing to remain 
+active this offseason, although we are all waiting for that one **BIG** signing to occur still. If 
+you're active on Twitter, you'll notice a lot of your favorite White Sox accounts would tell you 
+that Pederson would have ranked 1st in almost every statistical category for the White Sox last 
+season. Let's take a look at some of the numbers and see if we can pinpoint what Joc Pederson brings
+to the table for the South Siders. 
+
+# What we know
+
+```{r}
+library(tidyverse)
+library(baseballr)
+
+joc_id <- playerid_lookup("Pederson", "Joc")
+```
+
+Joc made his major league debut at the end of 2014 for the Dodgers at age 22 and although he for a
+0.210 average in 2015, the outfielder was selected to his first All-Star game. 
+
+```{r data-import}
+fg_hit_data <- fg_bat_leaders(2015, 2018, qual = 400*4, ind = 0)
+
+joc_data <- filter(fg_hit_data, Name == "Joc Pederson")
+
+fg_2018 <- fg_bat_leaders(2018, 2018, qual = 400)
+```
+
+# The Good 
+
+Of `r nrow(fg_hit_data)` qualified hitters that averaged over 400 plate appearances since 2015, 
+Pederson has a wOBA better than `r sum(joc_data$wOBA > fg_hit_data$wOBA)` players, or about
+`r scales::percent(round(mean(joc_data$wOBA > fg_hit_data$wOBA), 2))` of the field. 
+
+```{r woba-plot}
+ggplot(fg_hit_data, aes(x = wOBA)) + 
+  geom_histogram() +
+  geom_vline(xintercept = joc_data$wOBA, color = "dodgerblue", linetype = "dashed") +
+  annotate("text", x = joc_data$wOBA - 0.002, y = 7, 
+           label = "Pederson's wOBA",
+           angle = 90, size = 4, color = "white") +
+  annotate("text", x = max(fg_hit_data$wOBA), y = 2,
+           label = "Mike Trout", size = 4) +
+  scale_y_continuous(expand = c(0,0), limits = c(0, 25)) +
+  theme(plot.background = element_rect(fill = "gray95"), 
+        panel.grid.minor = element_blank(), 
+        panel.grid.major = element_line(color = "gray85"),
+        panel.background = element_rect(fill = "gray95"),
+        axis.ticks = element_blank(),
+        axis.text = element_text(size = 12, face = "bold"),
+        plot.title = element_text(size = 18, face = "bold", margin = margin(b = 30)),
+        plot.subtitle = element_text(size = 12, vjust = 10)) +
+  labs(x = "wOBA",
+       y = NULL,
+       title = "Pederson's wOBA MLB rank",
+       subtitle = "hitters with at lease 1,600 PA over last 4 seasons",
+       caption = "source: Fangraphs | baseballr")
+```
+
+As others have mentioned, he's ranked 1st in most categories if he were part of the forgettable 2018
+White Sox. His `r filter(fg_2018, Name == "Joc Pederson")$wOBA` wOBA in 2018 is a fair number better
+than the best performing Sox players. Of those with at least 400 plate appearances in 2018, here's 
+how they faired. If this were Twitter, I'd have to add a #108ing #Palkasmash.
+
+```{r}
+fg_2018 %>% 
+  filter(Team == "White Sox") %>% 
+  arrange(desc(wOBA)) %>% 
+  select(Name, wOBA) %>%
+  knitr::kable()
+```
+
+In addition to wOBA, here's a list of categories Joc would've ranked first in for the 2018 White Sox: 
+
+  * WAR
+  * OPS
+  * SLG
+  * Walk to Strikeout Ratio
+  * ISO
+
+```{r, eval = FALSE}
+fg_2018 %>%
+  filter(Team == "White Sox" | Name == "Joc Pederson") %>%
+  select(Name, H:WPA) %>%
+  gather(key = metric, value = value, -Name) %>%
+  group_by(metric) %>%
+  arrange(desc(value)) %>%
+  mutate(rank = row_number()) %>%
+  filter(Name == "Joc Pederson" & rank == 1)
+```
+
+
+
+
+
+
