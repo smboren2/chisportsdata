@@ -91,6 +91,7 @@ In addition to wOBA, here's a list of categories Joc would've ranked first in fo
   * SLG
   * Walk to Strikeout Ratio
   * ISO
+  * K Rate
 
 ```{r, eval = FALSE}
 fg_2018 %>%
