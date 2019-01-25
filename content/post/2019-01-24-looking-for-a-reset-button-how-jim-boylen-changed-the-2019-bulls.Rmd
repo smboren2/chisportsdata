@@ -1,0 +1,36 @@
+---
+title: 'Looking for a reset button: How Jim Boylen changed the 2019 Bulls'
+author: Sean Boren
+date: '2019-01-24'
+slug: looking-for-a-reset-button-how-jim-boylen-changed-the-2019-bulls
+categories:
+  - BULLS
+tags: []
+---
+
+Since taking over for Fred Hoiberg at the beginning of December, Jim Boylen has taken a ton of 
+criticism for his approach as the new lead man for the Bulls, but rightfully so. His "play hard" 
+mentality and push to be the best conditioned team in the league (defending push-up champs) hasn't 
+resonated with players of this era. Not only is this management style not fitting well, his 
+philosophy as a coach doesn't fit the mold of how the league has trended with a barrage of three 
+point attempts coming per game. While this is rather easy to see now after 24 games, I initially 
+wanted to reserve any judgement on the new coach and see how the team would perform and if the 
+young core would develop. Well, after a 20 point drubbing from the rebuilding Atlanta Hawks at home, 
+I think it's safe to say the team has some work to do. Not only do we not see any cohesiveness from 
+the team on the court, but we are starting to sense some divide amongst the players and the direction 
+of the team.
+
+Now that Boylen has matched the number of games Hoiberg has coached this year, let's see how the 
+team has transformed. 
+
+## Shot Selection
+
+There's a reason we've seen the three point shot become the focal point for most teams: analytics. 
+It really is simple math, but the evolution of analytics in sports has made front offices realize 
+that attempting more three-pointers will increase your expected point total. Well, since drill 
+sergeant Boylen took over, the Bulls have consistently taken less threes. 
+
+```{r}
+
+```
+
