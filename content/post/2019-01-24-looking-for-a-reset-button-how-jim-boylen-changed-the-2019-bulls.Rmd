@@ -24,7 +24,12 @@ wanted to reserve any judgement on the new coach and see how the team would perf
 young core would develop. Well, after a 20 point drubbing from the rebuilding Atlanta Hawks at home, 
 I think it's safe to say the team has some work to do. Not only do we not see any cohesiveness from 
 the team on the court, but we are starting to sense some divide amongst the players and the direction 
-of the team.
+their coach is taking them.
+
+```{r}
+blogdown::shortcode('tweet', '1088602351747977218')
+```
+
 
 Now that Boylen has matched the number of games Hoiberg has coached this year, let's see how the 
 team has transformed. 
@@ -48,7 +53,7 @@ bulls_data <- filter(team_data, nameTeam == "Chicago Bulls") %>%
 
 ```
 
-```{r}
+```{r fig.align='center'}
 league_average <- mean(sum(team_data$fg3aTeam)/sum(team_data$fgaTeam))
 
 # 5 game rolling proportion of 3 point shots
@@ -87,16 +92,34 @@ bulls_data %>%
 On average across the league, the 3-point shot represents 35% of teams’ field goal attempts. The 
 Bulls are consistently below that when looking across a 5-game average and hit peak “Boyball” at the 
 end of December into early January. Only recently are we seeing the team begin to take more 3-pointers 
-which is likely due to a little talking to from the front office.  
+which is likely due to a little talking to from the front office.
 
 ```{r results = 'hide'}
-game_ids <- bulls_data$idGame
-
-bulls_advanced <- nbastatR::box_scores(game_ids = game_ids, 
-                                       box_score_types = "Advanced", 
-                                       result_types = "team", 
-                                       join_data = TRUE, 
-                                       assign_to_environment = TRUE, 
-                                       return_message = TRUE)
+# game_ids <- bulls_data$idGame
+#  
+# bulls_effic <- nbastatR::box_scores(game_ids = game_ids, 
+#                                     box_score_types = "advanced", 
+#                                     result_types = "team", 
+#                                     join_data = TRUE, 
+#                                     assign_to_environment = TRUE, 
+#                                     return_message = TRUE)
+# 
+# bulls_effic$dataBoxScore[[1]] %>%
+#   filter(slugTeam == "CHI") %>%
+#   inner_join(select(bulls_data, idGame, dateGame), by = "idGame") %>% View()
+#   arrange(dateGame) %>%
+#   select(dateGame, slugTeam, pctTS, ortgE, ortg, drtgE, drtg, netrtgE, netrtg, paceE, pace) %>%
+#   gather(key = metric, value = value, -c(dateGame, slugTeam)) %>%
+#   group_by(metric) %>%
+#   mutate(roll_avg = rollmean(value, 5, fill = NA, align = "right")) %>%
+#   ggplot(aes(x = dateGame, y = roll_avg, group = metric, color = metric)) + 
+#     geom_line() + 
+#     geom_vline(xintercept = as.Date("2018-12-07")) +
+#     facet_wrap(~ metric, scales = "free")
+#   
+# 
+# 
+# team_stats <- teams_players_stats(seasons = 2019, types = "team", tables = "general", 
+#                                   season_types = "Regular Season", measures = "Advanced", modes = "PerGame")
 ```
 
