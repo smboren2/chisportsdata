@@ -6,7 +6,13 @@ slug: looking-for-a-reset-button-how-jim-boylen-changed-the-2019-bulls
 categories:
   - BULLS
 tags: []
+draft: TRUE
 ---
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE, error = FALSE, warning = FALSE, message = FALSE)
+
+```
 
 Since taking over for Fred Hoiberg at the beginning of December, Jim Boylen has taken a ton of 
 criticism for his approach as the new lead man for the Bulls, but rightfully so. His "play hard" 
@@ -23,14 +29,74 @@ of the team.
 Now that Boylen has matched the number of games Hoiberg has coached this year, let's see how the 
 team has transformed. 
 
-## Shot Selection
+### Shot Selection
 
 There's a reason we've seen the three point shot become the focal point for most teams: analytics. 
 It really is simple math, but the evolution of analytics in sports has made front offices realize 
 that attempting more three-pointers will increase your expected point total. Well, since drill 
 sergeant Boylen took over, the Bulls have consistently taken less threes. 
 
-```{r}
+```{r results = 'hide'}
+library(tidyverse)
+library(zoo)
+library(nbastatR)
 
+team_data <- game_logs(seasons = 2019, result_types = "team")
+
+bulls_data <- filter(team_data, nameTeam == "Chicago Bulls") %>%
+  mutate(head_coach = ifelse(numberGameTeamSeason < 25, "Fred Hoiberg", "Jim Boylen"))
+
+```
+
+```{r}
+league_average <- mean(sum(team_data$fg3aTeam)/sum(team_data$fgaTeam))
+
+# 5 game rolling proportion of 3 point shots
+bulls_data %>%
+  mutate(prop_threes = fg3aTeam/fgaTeam,
+         roll_sum_3att = rollsum(fg3aTeam, 5, align = "right", fill = NA),
+         roll_sum_fga = rollsum(fgaTeam, 5, align = "right", fill = NA),
+         prop_threes_roll = roll_sum_3att/roll_sum_fga) %>%
+  ggplot(aes(x = dateGame, y = prop_threes_roll)) + 
+    geom_point(color = "#CE1141") +
+    geom_smooth(method = "loess", se = FALSE, span = 0.25, color = "gray", size = 0.2) + 
+    #geom_vline(xintercept = as.numeric(as.Date("2018-12-08")), linetype = "dashed") +
+    geom_hline(yintercept = league_average, linetype = "dotted") +
+    scale_y_continuous(breaks = seq(0, 1, 0.02), labels = function(x) paste0(x*100, "%")) +
+    theme(panel.grid.minor = element_blank(),
+          panel.grid.major = element_line(color = "gray85"),
+          panel.background = element_rect(fill = "gray95"),
+          plot.background = element_rect(fill = "gray95"),
+          axis.ticks = element_blank(),
+          axis.text = element_text(size = 12),
+          axis.title.y = element_text(margin = margin(0, 0.5, 0, 0, "cm"), size = 14), 
+          plot.title = element_text(size = 20, margin = margin(0,0,0.5,0, "cm")),
+          plot.subtitle = element_text(size = 14, vjust = 4),
+          plot.margin = margin(0.75,0.75,0.75,0.75,"cm")) +
+    #annotate("text", x = as.Date("2018-11-10"), y = 0.385, label = "Hoiberg", fontface = "bold", size = 6) +
+    #annotate("text", x = as.Date("2019-01-07"), y = 0.385, label = "Boylen", fontface = "bold", size = 6) +
+    annotate("text", x = as.Date("2018-12-25"), y = league_average + 0.002, 
+             label = paste0("League Average ", round(league_average*100), "%")) +
+    labs(title = "The making of an old school offense",
+         subtitle = "% of FG that are 3PA (5-game moving average)",
+         x = NULL,
+         y = "3PA Rate",
+         caption = "ChiSports Data   |   source: nbastatR")
+```
+
+On average across the league, the 3-point shot represents 35% of teams’ field goal attempts. The 
+Bulls are consistently below that when looking across a 5-game average and hit peak “Boyball” at the 
+end of December into early January. Only recently are we seeing the team begin to take more 3-pointers 
+which is likely due to a little talking to from the front office.  
+
+```{r results = 'hide'}
+game_ids <- bulls_data$idGame
+
+bulls_advanced <- nbastatR::box_scores(game_ids = game_ids, 
+                                       box_score_types = "Advanced", 
+                                       result_types = "team", 
+                                       join_data = TRUE, 
+                                       assign_to_environment = TRUE, 
+                                       return_message = TRUE)
 ```
 
