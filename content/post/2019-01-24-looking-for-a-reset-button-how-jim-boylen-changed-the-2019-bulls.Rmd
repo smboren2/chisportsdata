@@ -6,7 +6,6 @@ slug: looking-for-a-reset-button-how-jim-boylen-changed-the-2019-bulls
 categories:
   - BULLS
 tags: []
-draft: TRUE
 ---
 
 ```{r setup, echo = FALSE}
@@ -19,7 +18,7 @@ criticism for his approach as the new lead man for the Bulls, but rightfully so.
 mentality and push to be the best conditioned team in the league (defending push-up champs) hasn't 
 resonated with players of this era. Not only is this management style not fitting well, his 
 philosophy as a coach doesn't fit the mold of how the league has trended with a barrage of three 
-point attempts coming per game. While this is rather easy to see now after 24 games, I initially 
+point attempts coming per game. While this is rather easy to see now after 25 games, I initially 
 wanted to reserve any judgement on the new coach and see how the team would perform and if the 
 young core would develop. Well, after a 20 point drubbing from the rebuilding Atlanta Hawks at home, 
 I think it's safe to say the team has some work to do. Not only do we not see any cohesiveness from 
@@ -44,6 +43,8 @@ sergeant Boylen took over, the Bulls have consistently taken less threes.
 library(tidyverse)
 library(zoo)
 library(nbastatR)
+library(ggimage)
+library(rsvg)
 
 team_data <- game_logs(seasons = 2019, result_types = "team")
 
@@ -79,7 +80,7 @@ bulls_data %>%
           plot.margin = margin(0.75,0.75,0.75,0.75,"cm")) +
     #annotate("text", x = as.Date("2018-11-10"), y = 0.385, label = "Hoiberg", fontface = "bold", size = 6) +
     #annotate("text", x = as.Date("2019-01-07"), y = 0.385, label = "Boylen", fontface = "bold", size = 6) +
-    annotate("text", x = as.Date("2018-12-25"), y = league_average + 0.002, 
+    annotate("text", x = as.Date("2018-12-25"), y = league_average + 0.003, 
              label = paste0("League Average ", round(league_average*100), "%")) +
     labs(title = "The making of an old school offense",
          subtitle = "% of FG that are 3PA (5-game moving average)",
@@ -99,12 +100,11 @@ We've read ad nauseam and seen just how much Jim Boylen wanted to slow the pace 
 The team has recently been upping the pace a bit and utilizing it effectively to get points
 in transition, but that wasn't the case in Boylen's earlier games. The reason so many have called 
 for the Bulls to play uptempo is because of the makeup of this roster. With such a young group of 
-players, the coach should want to try and run the other team out of the gym. The Atalanta Hawks are
-currently ranked 1st in pace and while their win percentage won't reflect it, the team has built an
-identity and found a way to make their players successful by getting up and down the floor. If Boylen
-really wants to try and play in the half-court setting, though, its not that you also can't be 
-successful doing that. The Spurs, Nuggets, and Rockets are all in the bottom 6 of the 
-league when it comes to pace, possessions per 48. 
+players, the coach should want to try and run the other team out of the gym. The Atlanta Hawks are
+currently ranked 1st in pace and while their win percentage won't reflect it, the team has found a 
+way to make their players successful by getting up and down the floor. If Boylen really wants to try 
+and play in the half-court setting, though, its not that you can't be successful doing that. The 
+relationship between pace and a team's win percentage isn't linear. 
 
 ```{r results = 'hide'}
 team_stats <- teams_players_stats(seasons = 2019, types = "team", tables = "general", 
@@ -113,16 +113,24 @@ team_stats <- teams_players_stats(seasons = 2019, types = "team", tables = "gene
 ```
 
 ```{r}
-ggplot(team_stats$dataTable[[1]], aes(x = paceRank, pctWins, label = nameTeam)) + 
-  geom_text(aes(label = nameTeam), size = 3) + 
+
+team_stats$dataTable[[1]] %>%
+  inner_join(select(team_data, nameTeam, urlTeamSeasonLogo), by = "nameTeam") %>%
+  ggplot(aes(x = paceRank, pctWins)) + 
+  geom_image(aes(image = urlTeamSeasonLogo), size = 0.1) + 
+  scale_size_identity() +
+  scale_y_continuous(breaks = seq(0,1,0.10)) +
   theme(panel.grid = element_line(color = "gray85"),
         panel.background = element_rect(fill = "gray95"),
         plot.background = element_rect(fill = "gray95"),
         axis.ticks = element_blank(),
         axis.text = element_text(size = 12),
-        axis.title = element_text(margin = margin(0, 0.5, 0, 0, "cm"), size = 14),
-        plot.title = element_text(size = 20, margin = margin(0,0,0.5,0, "cm")),
-        plot.margin = margin(0.75,0.75,0.75,0.75,"cm")) +
+        axis.title = element_text(size = 14),
+        axis.title.y = element_text(margin = margin(0,0.5,0,0, "cm")),
+        axis.title.x = element_text(margin = margin(0.5,0,0,0, "cm")),
+        plot.title = element_text(size = 22, margin = margin(0,0,0.5,0, "cm"), vjust = 5, face = "bold"),
+        plot.margin = margin(0.75,0.75,0.75,0.75,"cm"),
+        plot.caption = element_text(margin = margin(0.5,0,0,0, "cm"))) +
   labs(x = "Pace (League Rank)",
        y = "Win Percentage",
        title = "Pace alone doesn't lead to more wins",
@@ -130,47 +138,17 @@ ggplot(team_stats$dataTable[[1]], aes(x = paceRank, pctWins, label = nameTeam)) 
 
 ```
 
-Unlike the Bulls, though, these teams employ a very active, free-flowing offense in the half-court. 
-Their offensive sets have allowed the Spurs to have the best 3P FG% in the league, while the Nuggets 
-have the 2nd best assist ratio (assists per 100 poss.) in the league. The Rockets on the other hand, 
-well, they have James Harden who is having a record-setting year. 
+The Spurs, Nuggets, and Rockets are all in the bottom 6 of the league when it comes to pace, 
+possessions per 48. Unlike the Bulls, though, these teams employ a very active, motion offense in the 
+half-court. Their offensive sets have allowed the Spurs to have the best 3P FG% in the league, while 
+the Nuggets have the 2nd best assist ratio (assists per 100 poss.) in the league. The Rockets on the 
+other hand, well, they have James Harden who is having a record-setting year. 
 
-Slow pace can work, but its how you utilize the offense to generate open shots, something the Bulls 
+Slow pace **can** work, but its how you utilize the offense to generate open shots - something the Bulls 
 haven't quite done. In watching games, the team doesn't look to have a real plan. There is far too much
-put on the shoulders of Zach Lavine to make plays and Lauri Markkanen to chuck up a bail out shot 
-toward the end of the shot clock. The team, and mainly its coach, needs to make an adjustment and 
-find what can help make this team successful. Successful doesn't need to be defined by wins either. 
-With a team in a rebuild, it should at the very least mean they are competitive in most games. That's
-something the team was under Fred Hoiberg. While the team won't have a key cog in its rebuild in 
-Wendell Carter Jr., they still have Lavine, Dunn, and Markkanen who need to develop. With less than 
-half the season left, its up to Jim Boylen to adjust to what he has on the roster and figure out this
-team's strength. Just like the players, I'm sick of seeing blowout losses and something needs to change.
-
-```{r results = 'hide'}
-# game_ids <- bulls_data$idGame
-#  
-# bulls_effic <- nbastatR::box_scores(game_ids = game_ids, 
-#                                     box_score_types = "advanced", 
-#                                     result_types = "team", 
-#                                     join_data = TRUE, 
-#                                     assign_to_environment = TRUE, 
-#                                     return_message = TRUE)
-# 
-# bulls_effic$dataBoxScore[[1]] %>%
-#   filter(slugTeam == "CHI") %>%
-#   inner_join(select(bulls_data, idGame, dateGame), by = "idGame") %>% View()
-#   arrange(dateGame) %>%
-#   select(dateGame, slugTeam, pctTS, ortgE, ortg, drtgE, drtg, netrtgE, netrtg, paceE, pace) %>%
-#   gather(key = metric, value = value, -c(dateGame, slugTeam)) %>%
-#   group_by(metric) %>%
-#   mutate(roll_avg = rollmean(value, 5, fill = NA, align = "right")) %>%
-#   ggplot(aes(x = dateGame, y = roll_avg, group = metric, color = metric)) + 
-#     geom_line() + 
-#     geom_vline(xintercept = as.Date("2018-12-07")) +
-#     facet_wrap(~ metric, scales = "free")
-#   
-# 
-# 
-
-```
-
+put on the shoulders of Zach Lavine to make plays and Lauri Markkanen to attempt a low percentage 
+shot at the end of a shot clock. This team, and mainly its coach, need to make adjustments and 
+find what can help make them successful. In the case of a rebuilding organization, successful doesn't 
+have to be defined by wins. At the very least it would mean remaining competitive in most 
+games which is something they were doing under Fred Hoiberg. Just like the players, I'm sick of seeing 
+blowout losses and something needs to change.
