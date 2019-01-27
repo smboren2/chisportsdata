@@ -30,8 +30,7 @@ their coach is taking them.
 blogdown::shortcode('tweet', '1088602351747977218')
 ```
 
-
-Now that Boylen has matched the number of games Hoiberg has coached this year, let's see how the 
+Now that Boylen has at least matched the number of games Hoiberg has coached this year, let's see how the 
 team has transformed. 
 
 ### Shot Selection
@@ -86,13 +85,66 @@ bulls_data %>%
          subtitle = "% of FG that are 3PA (5-game moving average)",
          x = NULL,
          y = "3PA Rate",
-         caption = "ChiSports Data   |   source: nbastatR")
+         caption = "ChiSports Data   |   source: NBA.com via nbastatR")
 ```
 
 On average across the league, the 3-point shot represents 35% of teams’ field goal attempts. The 
 Bulls are consistently below that when looking across a 5-game average and hit peak “Boyball” at the 
 end of December into early January. Only recently are we seeing the team begin to take more 3-pointers 
 which is likely due to a little talking to from the front office.
+
+### Pace
+
+We've read ad nauseam and seen just how much Jim Boylen wanted to slow the pace down for this team.
+The team has recently been upping the pace a bit and utilizing it effectively to get points
+in transition, but that wasn't the case in Boylen's earlier games. The reason so many have called 
+for the Bulls to play uptempo is because of the makeup of this roster. With such a young group of 
+players, the coach should want to try and run the other team out of the gym. The Atalanta Hawks are
+currently ranked 1st in pace and while their win percentage won't reflect it, the team has built an
+identity and found a way to make their players successful by getting up and down the floor. If Boylen
+really wants to try and play in the half-court setting, though, its not that you also can't be 
+successful doing that. The Spurs, Nuggets, and Rockets are all in the bottom 6 of the 
+league when it comes to pace, possessions per 48. 
+
+```{r results = 'hide'}
+team_stats <- teams_players_stats(seasons = 2019, types = "team", tables = "general", 
+                                  season_types = "Regular Season", measures = "Advanced", modes = "PerGame")
+
+```
+
+```{r}
+ggplot(team_stats$dataTable[[1]], aes(x = paceRank, pctWins, label = nameTeam)) + 
+  geom_text(aes(label = nameTeam), size = 3) + 
+  theme(panel.grid = element_line(color = "gray85"),
+        panel.background = element_rect(fill = "gray95"),
+        plot.background = element_rect(fill = "gray95"),
+        axis.ticks = element_blank(),
+        axis.text = element_text(size = 12),
+        axis.title = element_text(margin = margin(0, 0.5, 0, 0, "cm"), size = 14),
+        plot.title = element_text(size = 20, margin = margin(0,0,0.5,0, "cm")),
+        plot.margin = margin(0.75,0.75,0.75,0.75,"cm")) +
+  labs(x = "Pace (League Rank)",
+       y = "Win Percentage",
+       title = "Pace alone doesn't lead to more wins",
+       caption = "ChiSports Data   |   source: NBA.com via nbastatR")
+
+```
+
+Unlike the Bulls, though, these teams employ a very active, free-flowing offense in the half-court. 
+Their offensive sets have allowed the Spurs to have the best 3P FG% in the league, while the Nuggets 
+have the 2nd best assist ratio (assists per 100 poss.) in the league. The Rockets on the other hand, 
+well, they have James Harden who is having a record-setting year. 
+
+Slow pace can work, but its how you utilize the offense to generate open shots, something the Bulls 
+haven't quite done. In watching games, the team doesn't look to have a real plan. There is far too much
+put on the shoulders of Zach Lavine to make plays and Lauri Markkanen to chuck up a bail out shot 
+toward the end of the shot clock. The team, and mainly its coach, needs to make an adjustment and 
+find what can help make this team successful. Successful doesn't need to be defined by wins either. 
+With a team in a rebuild, it should at the very least mean they are competitive in most games. That's
+something the team was under Fred Hoiberg. While the team won't have a key cog in its rebuild in 
+Wendell Carter Jr., they still have Lavine, Dunn, and Markkanen who need to develop. With less than 
+half the season left, its up to Jim Boylen to adjust to what he has on the roster and figure out this
+team's strength. Just like the players, I'm sick of seeing blowout losses and something needs to change.
 
 ```{r results = 'hide'}
 # game_ids <- bulls_data$idGame
@@ -119,7 +171,6 @@ which is likely due to a little talking to from the front office.
 #   
 # 
 # 
-# team_stats <- teams_players_stats(seasons = 2019, types = "team", tables = "general", 
-#                                   season_types = "Regular Season", measures = "Advanced", modes = "PerGame")
+
 ```
 
