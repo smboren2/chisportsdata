@@ -1,5 +1,5 @@
 ---
-title: We’re Seeing a New Reynaldo Lopez
+title: 'We’re Seeing a New Reynaldo Lopez'
 author: Sean Boren
 date: '2019-08-23'
 slug: we-re-seeing-a-new-reynaldo-lopez
