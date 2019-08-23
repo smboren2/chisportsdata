@@ -11,6 +11,7 @@ paginate = 5 #frontpage pagination
 
 # Recommended to be added during build
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
+disableKinds = ["taxonomy", "taxonomyTerm"]
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
