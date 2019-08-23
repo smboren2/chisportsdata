@@ -67,64 +67,13 @@ pitch_distr %>%
           axis.text = element_text(size = 12),
           axis.title.y = element_text(margin = margin(0, 0.5, 0, 0, "cm"), size = 14), 
           axis.title.x = element_text(size = 14),
-          plot.title = element_text(size = 24, margin = margin(0,0,0.5,0, "cm")),
-          plot.subtitle = element_text(size = 14, vjust = 4),
+          plot.title = element_text(size = 20, margin = margin(0,0,0.5,0, "cm")),
           plot.margin = margin(0.75,0.75,0.75,0.75,"cm"),
           legend.background = element_rect(fill = "gray95"),
           legend.title.align = 0.5,
           legend.title = element_text(size = 18),
           legend.text = element_text(size = 14)) 
 ```
-
-
-
-
-
-
-
-```{r}
-# throwing CH less, but getting more whiffs.....more effective when mixing slider more often? 
-
-# mean FF speed/spin increase
-reylo %>% 
-  filter(pitch_type == "FF") %>% 
-  group_by(game_date) %>% 
-  summarize(mean_spin = mean(release_spin_rate), 
-            mean_speed = mean(release_speed)) %>% 
-  gather(key = type, value = value, -game_date) %>% 
-  ggplot(aes(game_date, value, color = type, group = 1)) + 
-    geom_line() + 
-    facet_grid(type ~ ., scales = "free")
-
-
-
-# 
-ggplot(filter(reylo, !is.na(pitch_type)), aes(all_star_period, release_speed)) +
-  geom_boxplot() + 
-  facet_wrap(~ pitch_type, scales = "free")
-
-
-
-# inducing more of less fly balls? exit velo? barrels? 
-reylo %>%
-  filter(!is.na(barrel)) %>%
-  group_by(all_star_period) %>%
-  summarize(count = n(),
-            barrels = sum(barrel == 1)) %>%
-  mutate(barrel_rate = barrels/count)
-
-
-reylo %>%
-  filter(description %in% c("hit_into_play", "foul", "hit_into_play_score", "swinging_strike", 
-                            "hit_into_play_no_out", "foul_tip", "swinging_strike_blocked", "foul_bunt")) %>%
-  mutate(swinging_strike = ifelse(grepl("swinging_strike", description), 1, 0)) %>%
-  group_by(all_star_period, pitch_type) %>%
-  summarize(whiff_rate = mean(swinging_strike),
-            counts = n())
-
-
-```
-
 
 
 For the 5 games leading up to the break (his July 4th outing), we see an equal distribution among the slider, curveball, and changeup. As we move through the year, we start to this breakout with a slider being thrown 20%+ and resorting to curveball and changeup around only 10% of the time. This doesn’t necessarily identify what Reynaldo’s strengths are and what his optimal distribution could be for success, but this backwards approach allows us to see where changes in his arsenal are being made and given the success he's had in recent starts, this might be a trend he commits to. 
@@ -156,10 +105,20 @@ reylo %>%
   mutate(swinging_strike = ifelse(grepl("swinging_strike", description), 1, 0)) %>%
   group_by(all_star_period, pitch_type) %>%
   summarize(whiff_rate = mean(swinging_strike),
-            counts = n())
+            counts = n()) %>%
+  filter(!is.na(pitch_type)) %>%
+  mutate(new_val = paste0(scales::percent(whiff_rate, 3), " (", counts, ")")) %>%
+  select(all_star_period, pitch_type, new_val) %>%
+  spread(all_star_period, new_val) %>%
+  select(pitch_type, pre, post) %>%
+  knitr::kable(col.names = c("Pitch", "Before Break", "After Break"),
+               align = c("l", "c", "c"), caption = "Whiff Rates by Pitch")
 ```
 
-
 Some of this should come to no surprise for anyone watching Lopez's starts as of recent. His fastball has been electric and the readings on the broadcast have been consitently at 96-97. 
+
+### What to Watch For
+
+I'll dive more into what Reynaldo has done successfully and what he should focus on for the 2020 season once this season is complete. For the remainder of the year, take a look at the velocity of his fastball and if he can continue to keep it near 97 consistently. In addition to this, we should focus on how he continues to mix in his off-speed pitches and if a lower usage of his changeup contributes to it being used for effectively. 
 
 
