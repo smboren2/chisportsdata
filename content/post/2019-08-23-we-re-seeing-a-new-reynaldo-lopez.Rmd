@@ -1,0 +1,42 @@
+---
+title: We’re Seeing a New Reynaldo Lopez
+author: Sean Boren
+date: '2019-08-23'
+slug: we-re-seeing-a-new-reynaldo-lopez
+categories:
+  - White Sox
+tags: []
+---
+
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE, error = FALSE, warning = FALSE, message = FALSE)
+```
+
+“Starting today you’re going to see a different pitcher going forward for the second half of the season.”
+
+Those were the words Reynaldo Lopez expressed through an interpreter after getting shelled in a July 4th start against the Detroit Tigers. At the time, Lopez had the highest ERA (6.34) among qualified pitchers. Since then, though, Lopez has lived up to his word as we have seen a much better pitcher since the all-star break. Through his 8 second-half starts, Reynaldo sports a 3.10 ERA along with what appear to be some significant changes to his repertoire and velocity. The season isn’t over yet, but let’s take a look at what is different for the right-hander. 
+
+### Pitch Mix
+
+For the early part of 2019, the right-handed starter has typically used a threw about 60% four-seam fastballs with an equal mix of sliders and changeups per outing. If we look at the 5-game rolling average pitch distribution, we start to see changes that Lopez has made, particularly for how he distributes his off-speed selection post all-star break. 
+
+```{r cars}
+summary(cars)
+```
+
+For the 5 games leading up to the break (his July 4th outing), we see an equal distribution among the slider, curveball, and changeup. As we move through the year, we start to this breakout with a slider being thrown 20%+ and resorting to curveball and changeup around only 10% of the time. This doesn’t necessarily identify what Reynaldo’s strengths are and what his optimal distribution could be for success, but this backwards approach allows us to see where changes in his arsenal are being made and given the success he's had in recent starts, this might be a trend he commits to. 
+
+### Increased Velocity
+
+When digging into what has allowed Reynaldo to succeed in the second half, one thing stood out immediately – an increase in velocity. The table below shows the average velocity per pitch before and after the all-start break. With the exception of his curveball, every pitch has seen an increase in velocity of nearly 2 mph. 
+
+```{r}
+
+```
+
+So, while he is throwing his changeup less, the added velocity to his fastball has likely made the change more effective as he has generated 16 swings and misses on 35 pitches, a whiff rate of nearly 46%. If the velocity increases were to hold going forward, we should continue to see a much better Reynaldo Lopez. 
+
+Anyone watching the White Sox lately may not be surprised by what Lopez has been getting on his fastball. Every time I see the reading, it is usually touching 96 or 97 and appears to have a little more life than it used to and the data is there to back that up. Looking strictly at his spin rate shows another 
+
+
