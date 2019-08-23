@@ -10,7 +10,7 @@ tags: []
 
 
 ```{r setup, echo = FALSE}
-knitr::opts_chunk$set(echo = FALSE, error = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = FALSE, error = FALSE, warning = FALSE, message = FALSE, fig.align = 'center')
 ```
 
 “Starting today you’re going to see a different pitcher going forward for the second half of the season.”
