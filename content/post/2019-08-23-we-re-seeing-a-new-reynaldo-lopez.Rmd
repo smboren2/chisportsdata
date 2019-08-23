@@ -1,5 +1,5 @@
 ---
-title: We’re Seeing a New Reynaldo Lopez
+title: 'We’re Seeing a New Reynaldo Lopez'
 author: Sean Boren
 date: '2019-08-23'
 slug: we-re-seeing-a-new-reynaldo-lopez
@@ -7,3 +7,159 @@ categories:
   - White Sox
 tags: []
 ---
+
+
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(echo = FALSE, error = FALSE, warning = FALSE, message = FALSE)
+```
+
+“Starting today you’re going to see a different pitcher going forward for the second half of the season.”
+
+Those were the words Reynaldo Lopez expressed through an interpreter after getting shelled in a July 4th start against the Detroit Tigers. At the time, Lopez had the highest ERA (6.34) among qualified pitchers. Since then, though, Lopez has lived up to his word as we have seen a much better pitcher since the all-star break. Through his 8 second-half starts, Reynaldo sports a 3.10 ERA along with what appear to be some significant changes to his repertoire and velocity. The season isn’t over yet, but let’s take a look at what is different for the right-hander. 
+
+### Pitch Mix
+
+For the early part of 2019, the right-handed starter has typically used a threw about 60% four-seam fastballs with an equal mix of sliders and changeups per outing. If we look at the 5-game rolling average pitch type distribution, we start to see changes that Lopez has made, particularly for how he distributes his off-speed selection post all-star break. 
+
+```{r import}
+library(baseballr)
+library(tidyverse)
+library(zoo)
+
+reylo_id <- playerid_lookup(last_name = "Lopez", first_name = "Reynaldo")[["mlbam_id"]]
+
+reylo <- scrape_statcast_savant_pitcher(start_date = "2019-03-25", 
+                                        end_date = Sys.Date(), 
+                                        pitcherid = reylo_id)
+
+reylo$all_star_period <- ifelse(reylo$game_date > "2019-07-10", "post", "pre")
+```
+
+```{r pitch-mix}
+
+pitch_distr <- reylo %>%
+  filter(!is.na(pitch_type)) %>%
+  group_by(game_date, pitch_type) %>%
+  summarize(n = n()) %>%
+  mutate(freq = n/sum(n)) %>%
+  ungroup() 
+
+# rolling 5 game
+pitch_distr %>% 
+  arrange(game_date) %>%
+  group_by(pitch_type) %>%
+  mutate(roll_mean_5game = rollmean(freq, 5, align = "right", fill = NA)) %>%
+  filter(!is.na(roll_mean_5game)) %>%
+  ggplot(aes(game_date, roll_mean_5game, group = pitch_type, color = pitch_type)) +
+    geom_line(size = 1.5) +
+    geom_vline(xintercept = as.numeric(as.Date("2019-07-10")), linetype = 3) +
+    scale_y_continuous(breaks = seq(0,1,0.1), labels = scales::percent_format(accuracy = 2)) +
+    annotate("text", x = as.Date("2019-07-20"), y = 0.35, label = "all-star game") +
+    labs(x = NULL, 
+         y = "Frequency", 
+         title = "Reynaldo Lopez Rolling 5-game Average Pitch Mix") +
+    scale_color_discrete(name = "Pitch") +
+    theme(panel.grid.minor = element_blank(),
+          panel.grid.major = element_line(color = "gray85"),
+          panel.background = element_rect(fill = "gray95"),
+          plot.background = element_rect(fill = "gray95"),
+          axis.ticks = element_blank(),
+          axis.text = element_text(size = 12),
+          axis.title.y = element_text(margin = margin(0, 0.5, 0, 0, "cm"), size = 14), 
+          axis.title.x = element_text(size = 14),
+          plot.title = element_text(size = 24, margin = margin(0,0,0.5,0, "cm")),
+          plot.subtitle = element_text(size = 14, vjust = 4),
+          plot.margin = margin(0.75,0.75,0.75,0.75,"cm"),
+          legend.background = element_rect(fill = "gray95"),
+          legend.title.align = 0.5,
+          legend.title = element_text(size = 18),
+          legend.text = element_text(size = 14)) 
+```
+
+
+
+
+
+
+
+```{r}
+# throwing CH less, but getting more whiffs.....more effective when mixing slider more often? 
+
+# mean FF speed/spin increase
+reylo %>% 
+  filter(pitch_type == "FF") %>% 
+  group_by(game_date) %>% 
+  summarize(mean_spin = mean(release_spin_rate), 
+            mean_speed = mean(release_speed)) %>% 
+  gather(key = type, value = value, -game_date) %>% 
+  ggplot(aes(game_date, value, color = type, group = 1)) + 
+    geom_line() + 
+    facet_grid(type ~ ., scales = "free")
+
+
+
+# 
+ggplot(filter(reylo, !is.na(pitch_type)), aes(all_star_period, release_speed)) +
+  geom_boxplot() + 
+  facet_wrap(~ pitch_type, scales = "free")
+
+
+
+# inducing more of less fly balls? exit velo? barrels? 
+reylo %>%
+  filter(!is.na(barrel)) %>%
+  group_by(all_star_period) %>%
+  summarize(count = n(),
+            barrels = sum(barrel == 1)) %>%
+  mutate(barrel_rate = barrels/count)
+
+
+reylo %>%
+  filter(description %in% c("hit_into_play", "foul", "hit_into_play_score", "swinging_strike", 
+                            "hit_into_play_no_out", "foul_tip", "swinging_strike_blocked", "foul_bunt")) %>%
+  mutate(swinging_strike = ifelse(grepl("swinging_strike", description), 1, 0)) %>%
+  group_by(all_star_period, pitch_type) %>%
+  summarize(whiff_rate = mean(swinging_strike),
+            counts = n())
+
+
+```
+
+
+
+For the 5 games leading up to the break (his July 4th outing), we see an equal distribution among the slider, curveball, and changeup. As we move through the year, we start to this breakout with a slider being thrown 20%+ and resorting to curveball and changeup around only 10% of the time. This doesn’t necessarily identify what Reynaldo’s strengths are and what his optimal distribution could be for success, but this backwards approach allows us to see where changes in his arsenal are being made and given the success he's had in recent starts, this might be a trend he commits to. 
+
+### Increased Velocity
+
+When digging into what has allowed Reynaldo to succeed in the second half, one thing stood out immediately – an increase in velocity. The table below shows the average velocity per pitch before and after the all-start break. With the exception of his curveball, every pitch has seen an increase in velocity of nearly 2 mph. 
+
+```{r velo-changes}
+reylo %>%
+  filter(!is.na(pitch_type)) %>%
+  group_by(all_star_period, pitch_type) %>%
+  summarize(mean_velo = mean(release_speed, na.rm = TRUE)) %>%
+  spread(key = pitch_type, value = mean_velo) %>% 
+  arrange(desc(all_star_period)) %>% 
+  ungroup() %>% 
+  mutate(all_star_period = ifelse(all_star_period == "pre", "Before", "After")) %>%
+  knitr::kable(col.names = c("All-Star Period","CH","CU","FF","SL"),
+               digits = 1,
+               align = c('l',rep('c',4)))
+```
+
+So, while he is throwing his changeup less, the added velocity to his fastball has likely made the change more effective as he has generated 16 swings and misses on 35 pitches, a whiff rate of nearly 46%, albeit on a small sample size. If the velocity increases were to hold going forward, we should continue to see a much better Reynaldo Lopez.
+
+```{r}
+reylo %>%
+  filter(description %in% c("hit_into_play", "foul", "hit_into_play_score", "swinging_strike", 
+                            "hit_into_play_no_out", "foul_tip", "swinging_strike_blocked", "foul_bunt")) %>%
+  mutate(swinging_strike = ifelse(grepl("swinging_strike", description), 1, 0)) %>%
+  group_by(all_star_period, pitch_type) %>%
+  summarize(whiff_rate = mean(swinging_strike),
+            counts = n())
+```
+
+
+Some of this should come to no surprise for anyone watching Lopez's starts as of recent. His fastball has been electric and the readings on the broadcast have been consitently at 96-97. 
+
+
